@@ -20,7 +20,7 @@ export const useAgendaStore = create((set, get) => ({
     getAgendas: async () => {
         set({ isLoading: true, error: null });
         try {
-            const response = await axios.get(`${API_BASE_URL}/api/agendas`);
+            const response = await axios.get(`${API_BASE_URL}/api/v1/agenda/`);
             
             // Asegurar que siempre sea un array
             const agendaData = response.data.data || response.data;
@@ -43,7 +43,7 @@ export const useAgendaStore = create((set, get) => ({
         set({ isLoading: true, error: null });
         try {
             const response = await axios.post(
-                `${API_BASE_URL}/create`, 
+                `${API_BASE_URL}/api/v1/agenda/create`, 
                 newAgenda
             );
             
@@ -67,7 +67,7 @@ export const useAgendaStore = create((set, get) => ({
         set({ isLoading: true, error: null });
         try {
             const response = await axios.get(
-                `${API_BASE_URL}/filtro/${importancia}`
+                `${API_BASE_URL}/api/v1/agenda/filtro/${importancia}`
             );
             
             const agendaData = response.data.data || response.data;
@@ -90,7 +90,7 @@ export const useAgendaStore = create((set, get) => ({
         set({ isLoading: true, error: null });
         try {
             const response = await axios.put(
-                `${API_BASE_URL}/update/${id}`,
+                `${API_BASE_URL}/api/v1/agenda/update/${id}`,
                 updatedAgenda
             );
             
@@ -115,7 +115,7 @@ export const useAgendaStore = create((set, get) => ({
         set({ isLoading: true, error: null });
         try {
             const response = await axios.delete(
-                `${API_BASE_URL}/delete/${id}`
+                `${API_BASE_URL}/api/v1/agenda/delete/${id}`
             );
             
             // Eliminar la agenda del estado
