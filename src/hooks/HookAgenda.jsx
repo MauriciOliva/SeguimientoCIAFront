@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:3605/api/v1/agenda';
+const API_BASE_URL = import.meta.env.VITE_API_URL ;
 
 export const useAgendaStore = create((set, get) => ({
     isLoading: false,
