@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FormularioAgenda } from '../forms/AgendaForm';
 import { useAgendaStore } from '../../hooks/HookAgenda';
 import { motion, AnimatePresence } from "framer-motion";
+import ErrorBoundary from './ErrorBoundary';
 
 export const AgendaList = () => {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
@@ -110,7 +111,8 @@ export const AgendaList = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-4 md:p-8">
+    <ErrorBoundary>
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         
         {/* Header */}
@@ -375,5 +377,7 @@ export const AgendaList = () => {
         </AnimatePresence>
       </div>
     </div>
+    </ErrorBoundary>
+
   );
 };

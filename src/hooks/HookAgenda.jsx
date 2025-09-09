@@ -20,15 +20,20 @@ export const useAgendaStore = create((set, get) => ({
     getAgendas: async () => {
         set({ isLoading: true, error: null });
         try {
-            const response = await axios.get(API_BASE_URL);
+            const response = await axios.get(`${API_BASE_URL}/api/agendas`);
+            
+            // Asegurar que siempre sea un array
+            const agendaData = response.data.data || response.data;
+            const safeAgenda = Array.isArray(agendaData) ? agendaData : [];
+            
             set({ 
-                agenda: response.data.data || response.data, 
+                agenda: safeAgenda, 
                 isLoading: false 
             });
-            return response.data.data || response.data;
+            return safeAgenda;
         } catch (error) {
             const errorMessage = error.response?.data?.message || 'Error al obtener las agendas';
-            set({ error: errorMessage, isLoading: false });
+            set({ error: errorMessage, isLoading: false, agenda: [] });
             throw new Error(errorMessage);
         }
     },
@@ -64,14 +69,18 @@ export const useAgendaStore = create((set, get) => ({
             const response = await axios.get(
                 `${API_BASE_URL}/filtro/${importancia}`
             );
+            
+            const agendaData = response.data.data || response.data;
+            const safeAgenda = Array.isArray(agendaData) ? agendaData : [];
+            
             set({ 
-                agenda: response.data.data || response.data, 
+                agenda: safeAgenda, 
                 isLoading: false 
             });
-            return response.data.data || response.data;
+            return safeAgenda;
         } catch (error) {
             const errorMessage = error.response?.data?.message || 'Error al obtener agendas filtradas';
-            set({ error: errorMessage, isLoading: false });
+            set({ error: errorMessage, isLoading: false, agenda: [] });
             throw new Error(errorMessage);
         }
     },
