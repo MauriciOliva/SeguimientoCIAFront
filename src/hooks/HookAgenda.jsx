@@ -20,11 +20,17 @@ export const useAgendaStore = create((set, get) => ({
     getAgendas: async () => {
         set({ isLoading: true, error: null });
         try {
+            console.log('Haciendo request a:', `${API_BASE_URL}/api/v1/agenda/`);
             const response = await axios.get(`${API_BASE_URL}/api/v1/agenda/`);
+            
+            console.log('Respuesta completa:', response);
+            console.log('Response data:', response.data);
             
             // Asegurar que siempre sea un array
             const agendaData = response.data.data || response.data;
             const safeAgenda = Array.isArray(agendaData) ? agendaData : [];
+            
+            console.log('Datos procesados:', safeAgenda);
             
             set({ 
                 agenda: safeAgenda, 
@@ -32,12 +38,14 @@ export const useAgendaStore = create((set, get) => ({
             });
             return safeAgenda;
         } catch (error) {
+            console.error('Error completo:', error);
+            console.error('Error response:', error.response);
+            
             const errorMessage = error.response?.data?.message || 'Error al obtener las agendas';
             set({ error: errorMessage, isLoading: false, agenda: [] });
             throw new Error(errorMessage);
         }
     },
-
     // Crear nueva agenda
     createAgenda: async (newAgenda) => {
         set({ isLoading: true, error: null });
