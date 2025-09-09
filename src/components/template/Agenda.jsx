@@ -3,7 +3,7 @@ import { FormularioAgenda } from '../forms/AgendaForm';
 import { useAgendaStore } from '../../hooks/HookAgenda';
 import { motion, AnimatePresence } from "framer-motion";
 import ErrorBoundary from './ErrorBoundary';
-import Notificaciones  from './Notifier';
+import {Notificaciones}  from './Notifier';
 
 export const AgendaList = () => {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
