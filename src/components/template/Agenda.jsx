@@ -135,6 +135,13 @@ export const AgendaList = () => {
               <p className="text-gray-600">Gestión de visitas y seguimiento empresarial</p>
             </div>
             <button
+              className="bg-gradient-to-r from-purple-600 to-purple-700 hover:scale-105 text-white px-6 py-3 rounded-xl font-semibold shadow-md transition duration-200 flex items-center  ml-[590px] "
+              onClick={() => setMostrarHistorial(true)}
+            >
+              <i className="fas fa-history"></i>
+              Ver Historial
+            </button>
+            <button
               className="mt-4 md:mt-0 bg-gradient-to-r from-blue-600 to-blue-700 hover:scale-105 text-white px-6 py-3 rounded-xl font-semibold shadow-md transition duration-200"
               onClick={handleNuevaEmpresa}
             >
