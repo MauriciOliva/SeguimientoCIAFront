@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { FormularioAgenda } from '../forms/AgendaForm';
 import { useAgendaStore } from '../../hooks/HookAgenda';
 import { motion, AnimatePresence } from "framer-motion";
-import ErrorBoundary from './ErrorBoundary';
-import {Notificaciones}  from './Notifier';
-import { HistorialNotificaciones } from './Historial';
+import ErrorBoundary from '../Atomos/ErrorBoundary';
+import {Notificaciones}  from '../Atomos/Notifier';
+import { HistorialNotificaciones } from '../Atomos/Historial';
+import { ExcelGenerator } from '../Atomos/GeneradorExcel';
 
 export const AgendaList = () => {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
@@ -134,20 +135,23 @@ export const AgendaList = () => {
               </h1>
               <p className="text-gray-600">Gestión de visitas y seguimiento empresarial</p>
             </div>
-            <button
-              className="bg-gradient-to-r from-purple-600 to-purple-700 hover:scale-105 text-white px-6 py-3 rounded-xl font-semibold shadow-md transition duration-200 flex items-center  ml-[590px] "
-              onClick={() => setMostrarHistorial(true)}
-            >
-              <i className="fas fa-history"></i>
-              Ver Historial
-            </button>
-            <button
-              className="mt-4 md:mt-0 bg-gradient-to-r from-blue-600 to-blue-700 hover:scale-105 text-white px-6 py-3 rounded-xl font-semibold shadow-md transition duration-200"
-              onClick={handleNuevaEmpresa}
-            >
-              <i className="fas fa-plus mr-2"></i>
-              Nueva Empresa
-            </button>
+            <div className="flex items-center gap-3 mt-4 md:mt-0">
+              <button
+                className="bg-gradient-to-r from-purple-600 to-purple-700 hover:scale-105 text-white px-6 py-3 rounded-xl font-semibold shadow-md transition duration-200 flex items-center"
+                onClick={() => setMostrarHistorial(true)}
+              >
+                <i className="fas fa-history mr-2"></i>
+                Ver Historial
+              </button>
+              <ExcelGenerator empresas={agenda} />
+              <button
+                className="bg-gradient-to-r from-blue-600 to-blue-700 hover:scale-105 text-white px-6 py-3 rounded-xl font-semibold shadow-md transition duration-200"
+                onClick={handleNuevaEmpresa}
+              >
+                <i className="fas fa-plus mr-2"></i>
+                Nueva Empresa
+              </button>
+            </div>
           </div>
         </div>
 
