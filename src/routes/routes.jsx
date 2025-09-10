@@ -1,4 +1,4 @@
-import { createBrowserRouter, Router, Routes, RouterProvider } from "react-router";
+import { createBrowserRouter, Router, Routes, RouterProvider } from "react-router-dom";
 import { AgendaPage } from "../pages/AgendaPAge";
 
 const router = createBrowserRouter([
