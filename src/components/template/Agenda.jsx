@@ -4,12 +4,14 @@ import { useAgendaStore } from '../../hooks/HookAgenda';
 import { motion, AnimatePresence } from "framer-motion";
 import ErrorBoundary from './ErrorBoundary';
 import {Notificaciones}  from './Notifier';
+import { HistorialNotificaciones } from './Historial';
 
 export const AgendaList = () => {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [empresaEditando, setEmpresaEditando] = useState(null);
   const [filtro, setFiltro] = useState('');
   const [empresaSeleccionada, setEmpresaSeleccionada] = useState(null);
+  const [mostrarHistorial, setMostrarHistorial] = useState(false);
 
   const {
     agenda,
@@ -115,6 +117,11 @@ export const AgendaList = () => {
     <ErrorBoundary>
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-4 md:p-8">
       <Notificaciones agendas={agenda} />
+
+      <HistorialNotificaciones
+        isOpen={mostrarHistorial}
+        onClose={() => setMostrarHistorial(false)}
+      />
       <div className="max-w-7xl mx-auto">
         
         {/* Header */}
