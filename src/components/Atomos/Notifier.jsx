@@ -57,6 +57,9 @@ export const Notificaciones = ({ agendas }) => {
             let mensaje = '';
             let tipo = 'info';
 
+            // 🚫 ELIMINADO: La condición para visitas vencidas (diasRestantes < 0)
+            // 👇 MANTENEMOS SOLO LAS NOTIFICACIONES FUTURAS:
+            
             if (diasRestantes === 3) {
                 mensaje = `⏰ En 3 días: Visita con ${agenda.nombreEmpresa}`;
                 tipo = 'INFO';
@@ -66,10 +69,8 @@ export const Notificaciones = ({ agendas }) => {
             } else if (diasRestantes === 0) {
                 mensaje = `🎯 ¡Hoy! Visita con ${agenda.nombreEmpresa}`;
                 tipo = 'IMPORTANTE';
-            } else if (diasRestantes < 0) {
-                mensaje = `⚠️ Visita vencida: ${agenda.nombreEmpresa} (hace ${Math.abs(diasRestantes)} días)`;
-                tipo = 'URGENTE';
             }
+            // ❌ REMOVIMOS el bloque de "diasRestantes < 0" (visitas vencidas)
 
             if (mensaje && !notificacionesMostradas.has(notificacionId)) {
                 // Mostrar notificación

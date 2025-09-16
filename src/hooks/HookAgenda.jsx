@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3605';
 
 export const useAgendaStore = create((set, get) => ({
     isLoading: false,
@@ -135,6 +135,59 @@ export const useAgendaStore = create((set, get) => ({
             return response.data.data || response.data;
         } catch (error) {
             const errorMessage = error.response?.data?.message || 'Error al eliminar la agenda';
+            set({ error: errorMessage, isLoading: false });
+            throw new Error(errorMessage);
+        }
+    },
+    deleteExpiredVisits: async () => {
+        set({ isLoading: true, error: null });
+        try {
+            const API_URL = import.meta.env.VITE_API_BASE_URL;
+            console.log('🌐 Usando URL:', API_URL);
+            
+            // Detectar si estamos en producción o local
+            const isProduction = API_URL.includes('vercel.app');
+            
+            if (isProduction) {
+                // Intentar con el backend de Vercel
+                try {
+                    const response = await axios.delete(`${API_URL}/api/v1/agenda/delete-expired`);
+                    console.log('✅ Eliminación en producción exitosa');
+                    
+                    // Recargar agendas desde el servidor
+                    await get().getAgendas();
+                    set({ isLoading: false });
+                    return response.data;
+                    
+                } catch (productionError) {
+                    console.log('⚠️ Falló producción, intentando localmente');
+                    // Continuar con solución frontend
+                }
+            }
+
+            // Solución frontend (siempre funciona)
+            const currentDate = new Date();
+            const agendasActuales = get().agenda;
+            
+            const agendasFiltradas = agendasActuales.filter(item => {
+                const visitaDate = new Date(item.visita);
+                return visitaDate >= currentDate;
+            });
+
+            const eliminadas = agendasActuales.length - agendasFiltradas.length;
+            
+            set({ 
+                agenda: agendasFiltradas, 
+                isLoading: false 
+            });
+
+            return { 
+                success: true, 
+                message: `Eliminadas ${eliminadas} visitas vencidas` 
+            };
+            
+        } catch (error) {
+            const errorMessage = error.response?.data?.message || 'Error al eliminar visitas vencidas';
             set({ error: errorMessage, isLoading: false });
             throw new Error(errorMessage);
         }

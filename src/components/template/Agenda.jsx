@@ -151,6 +151,22 @@ export const AgendaList = () => {
                 <i className="fas fa-plus mr-2"></i>
                 Nueva Empresa
               </button>
+              <button
+                  className="bg-gradient-to-r from-red-600 to-red-700 hover:scale-105 text-white px-6 py-3 rounded-xl font-semibold shadow-md transition duration-200 flex items-center"
+                  onClick={async () => {
+                      if (window.confirm('¿Estás seguro de eliminar todas las visitas vencidas?')) {
+                          try {
+                              await useAgendaStore.getState().deleteExpiredVisits();
+                              alert('Visitas vencidas eliminadas correctamente');
+                          } catch (error) {
+                              alert('Error al eliminar visitas vencidas: ' + error.message);
+                          }
+                      }
+                  }}
+              >
+                  <i className="fas fa-trash mr-2"></i>
+                  Eliminar Vencidas
+              </button>
             </div>
           </div>
         </div>
